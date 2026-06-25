@@ -16,5 +16,3 @@ export const isISODate: Rule = (dateStr: string) => {
   }
   return null;
 };
-
-// console.log(isISODate("19-06-2026"));

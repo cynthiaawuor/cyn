@@ -1,6 +1,13 @@
-import { Rule, ValidationErrorMessage } from "./validationRules/rule.js";
+import {
+  Rule,
+  ValidationErrorMessage,
+  ValidationResult,
+} from "./validationRules/rule.js";
 
-export default function validate(value: string, rules: Rule[]) {
+export default function validate(
+  value: string,
+  rules: Rule[],
+): ValidationResult {
   const errors: Record<string, ValidationErrorMessage> = {};
   for (let rule of rules) {
     const validationResponse = rule(value);
@@ -8,5 +15,9 @@ export default function validate(value: string, rules: Rule[]) {
       errors[rule.name] = validationResponse;
     }
   }
-  return errors;
+  return {
+    valid: Object.keys(errors).length === 0,
+    value: value,
+    errors: Object.values(errors),
+  };
 }
