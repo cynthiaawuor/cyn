@@ -9,3 +9,7 @@ export interface ValidationResult {
   value: string;
   errors: ValidationErrorMessage[];
 }
+
+export interface validationOptions {
+  coerce?: boolean;
+}

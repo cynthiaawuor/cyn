@@ -243,3 +243,25 @@ Output:
   ]
 }
 ```
+
+## Coercion Decisions
+
+This section documents exactly what the library coerces, why, and what it deliberately does not coerce.
+
+### What is coerced
+
+| Coercion            | Description                                                       | Why it is safe                                                                                                                                                                               |
+| ------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Whitespace trimming | Leading and trailing whitespace is removed from all string values | Users frequently add accidental spaces when copying or typing into forms. The trimmed value is almost always what they intended.                                                             |
+| Email lowercasing   | Email addresses are converted to lowercase                        | Email addresses are case-insensitive by specification (RFC 5321). `USER@EXAMPLE.COM` and `user@example.com` refer to the same mailbox. Normalising to lowercase prevents duplicate accounts. |
+
+### What is not coerced
+
+| Input               | Reason not coerced                                                                                                                                    |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Internal whitespace | Removing spaces inside a value (e.g. a name or password) would silently change the user's data in ways they did not intend.                           |
+| Phone numbers       | Removing dashes, spaces, or parentheses changes the format and could produce a number that is technically valid but incorrect.                        |
+| Dates               | Reformatting a date string risks silently changing the date value. Invalid dates should be rejected, not guessed.                                     |
+| Passwords           | Password values must never be modified before validation — coercing a password would cause authentication failures later when the original is stored. |
+
+Coercion is optional because not every application wants input silently modified. Forms that display validation errors immediately should show the user exactly what they typed. Coercion is most useful for background processing and API ingestion where clean normalised data is the priority.
