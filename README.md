@@ -1,6 +1,6 @@
-# Input Validation Engine
+# cyn
 
-A simple reusable TypeScript validation library with no external validation dependencies. It validates values against the existing rules and returns validation results that tell you exactly what failed and why.
+A simple reusable TypeScript validation library. It validates values against the existing rules and returns validation results with the format `{valid: boolean,value: string,errors: []}` that tell you exactly what failed and why.
 
 ---
 
@@ -27,46 +27,6 @@ npm install
 ```
 
 To use the library inside another project in the same workspace, import directly from the `src/` folder during development
-
----
-
-## Running Tests
-
-Run the full test suite:
-
-```bash
-npm test
-```
-
-Run tests in watch mode during development:
-
-```bash
-npm run test:watch
-```
-
-Each validation rule has its own test file inside the `tests/` directory with at least 5 edge-case tests per rule.
-
----
-
-## Basic Usage
-
-```typescript
-import cyn from "./index.js";
-
-const result = cyn.validate("user@example.com", [cyn.isRequired, cyn.isEmail]);
-
-console.log(result);
-```
-
-Output:
-
-```json
-{
-  "valid": true,
-  "value": "user@example.com",
-  "errors": []
-}
-```
 
 ---
 
